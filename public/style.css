@@ -1,0 +1,38 @@
+#logo{
+    width: 70px;
+    height: 70px;
+}
+
+#background-main{
+    background-image: url('imagens/pizza.png');
+    background-size: cover;
+    background-position: center;
+}
+
+main{
+    background-image: url('imagens/pizza.png');
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+}
+
+.form-container{
+    border-radius: 10px;
+    width: 100%; 
+    max-width: 500px !important;
+    height: 400px;
+    opacity: 95%;
+}
+
+#rodape{
+    height: 100px;
+    padding-top: 15px;
+}
+
+#link-rodape:hover{
+    color: rgb(96, 96, 96) !important;
+}
+
+.cor-de-fundo{
+    background-color: rgb(30, 29, 29);
+}
