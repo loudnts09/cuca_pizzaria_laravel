@@ -38,13 +38,13 @@ class PessoaController extends Controller
 
         $regras = [
 
-            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'nome' => 'required|min:3|max:200',
-            'email' => 'required|min:8|max:200',
-            'senha' => 'required|min:3|max:20',
-            'cpf' => 'required|min:11|max:14',
-            'telefone' => 'required|min:8|max:20',
-            'perfil_id' => 'required'
+            // 'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'nome' => 'required|min:3|max:200'
+            // 'email' => 'required|min:8|max:200',
+            // 'senha' => 'required|min:3|max:20',
+            // 'cpf' => 'required|min:11|max:14',
+            // 'telefone' => 'required|min:8|max:20',
+            // 'perfil_id' => 'required'
         ];
 
         $feedbacks = [
@@ -63,7 +63,15 @@ class PessoaController extends Controller
             'telefone.max' => 'A quantidade máxima de caracteres é 20.',
         ]; 
 
-        $request->validate($regras, $feedbacks);
+        
+        dd($request->all());
+        try {
+            //code...
+            $request->validate($regras, $feedbacks);
+        } catch (\Throwable $th) {
+            //throw $th;
+            dd($th);
+        }
         
         if($request->hasFile('foto')){
             $caminhoFoto = $request->file('foto')->store('fotos', 'public');
@@ -71,7 +79,7 @@ class PessoaController extends Controller
         }
         
         try {
-            dd($request->all());
+            // dd($request->all());
             Pessoa::create($request->all());
             return redirect()->route('app.cadastro.create')->with('mensagem', 'Cadastro realizado com sucesso!');
 
