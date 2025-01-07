@@ -16,4 +16,4 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/create', 'PessoaController@create');
 
-Route::post('/create', 'PessoaController@store');
+Route::post('/create', 'PessoaController@store')->name('app.cadastro.create');

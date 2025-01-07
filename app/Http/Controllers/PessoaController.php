@@ -24,7 +24,7 @@ class PessoaController extends Controller
      */
     public function create()
     {
-        return view('app.cliente.create');
+        return view('app.cadastro.create');
     }
 
     /**
@@ -35,6 +35,7 @@ class PessoaController extends Controller
      */
     public function store(Request $request)
     {
+
         $regras = [
 
             'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
@@ -54,23 +55,30 @@ class PessoaController extends Controller
             'nome.max' => 'A quantidade máxima de caracteres é 200.',
             'email.min' => 'A quantidade mínima de caracteres é 8.',
             'email.max' => 'A quantidade máxima de caracteres é 200.',
+            'senha.min' => 'A quantidade mínima é de 3 caracteres',
+            'senha.max' => 'A quantidade máxima é de 20 caracteres',
             'cpf.min' => 'A quantidade mínima de caracteres é 11.',
             'cpf.max' => 'A quantidade máxima de caracteres é 14.',
             'telefone.min' => 'A quantidade mínima de caracteres é 8.',
             'telefone.max' => 'A quantidade máxima de caracteres é 20.',
-        ];
+        ]; 
 
-        
         $request->validate($regras, $feedbacks);
         
         if($request->hasFile('foto')){
             $caminhoFoto = $request->file('foto')->store('fotos', 'public');
             $request->merge(['foto' => $caminhoFoto]);
         }
+        
+        try {
+            dd($request->all());
+            Pessoa::create($request->all());
+            return redirect()->route('app.cadastro.create')->with('mensagem', 'Cadastro realizado com sucesso!');
 
-        Pessoa::create($request->all());
-
-        //return redirect()->route('site.home');
+        } catch (\Exception $erro){
+            return back()->withInput()->withErrors('Falha ao realizar cadastro');
+            
+        }
     }
 
     /**
