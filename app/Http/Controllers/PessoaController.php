@@ -69,15 +69,21 @@ class PessoaController extends Controller
             $caminhoFoto = $request->file('foto')->store('fotos', 'public');
             $request->merge(['foto' => $caminhoFoto]);
         }
+
+        if($request->input('perfil_id') == 'administrador'){
+            $request->merge(   ['perfil_id' => 1]);
+        }
+        else if($request->perfil_id == 'usuario'){
+            $request->merge(   ['perfil_id' => 2]);
+        }
         
         try {
-            dd($request->all());
             Pessoa::create($request->all());
-            return redirect()->route('app.cadastro.create')->with('mensagem', 'Cadastro realizado com sucesso!');
+            return redirect()->route('site.login')->with('mensagem', 'Cadastro realizado com sucesso!');
 
         } catch (\Exception $erro){
             return back()->withInput()->withErrors('Falha ao realizar cadastro');
-            
+
         }
     }
 

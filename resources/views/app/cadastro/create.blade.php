@@ -65,8 +65,8 @@
           <div class="form-group mb-3">
             <label for="perfil" class="form-label">Tipo de Perfil</label>
               <select name="perfil" class="form-control" id="perfil" required>
-                <option value="2" {{ old('perfil') == '2' ? 'selected' : '' }} >Usuário</option>
-                <option value="1" {{ old('perfil') == '1' ? 'selected' : '' }} >Administrador</option>
+                <option value="usuario" {{ old('perfil') == 'usuario' ? 'selected' : '' }} >Usuário</option>
+                <option value="administrador" {{ old('perfil') == 'administrador' ? 'selected' : '' }} >Administrador</option>
             </select>
           </div>
           @if ($errors->has('perfil'))
