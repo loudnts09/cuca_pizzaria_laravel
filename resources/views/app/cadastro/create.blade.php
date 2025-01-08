@@ -13,8 +13,11 @@
           <!-- Foto do Usuário -->
           <div class="form-group mb-3">
             <label for="foto" class="form-label">Foto</label>
-            <input type="file" name="foto" class="form-control" id="foto" accept="image/*">
+            <input type="file" name="foto" class="form-control" value="{{ old('foto') }}" id="foto" accept="image/*">
           </div>
+          @if ($errors->has('foto'))
+            <div class="text-danger">{{ $errors->first('foto') }}</div>
+          @endif
 
           <!-- Nome do Usuário -->
           <div class="form-group mb-3">
@@ -55,7 +58,7 @@
           <!-- Senha -->
           <div class="form-group mb-3">
             <label for="senha" class="form-label">Senha</label>
-            <input type="senha" name="senha" class="form-control" value="{{ old('senha') }}" id="senha" placeholder="Digite sua senha" required>
+            <input type="password" name="senha" class="form-control" value="{{ old('senha') }}" id="senha" placeholder="Digite sua senha" required>
           </div>
           @if ($errors->has('senha'))
             <div class="text-danger">{{ $errors->first('senha') }}</div>
@@ -63,13 +66,13 @@
 
           <!-- Tipo de Perfil -->
           <div class="form-group mb-3">
-            <label for="perfil" class="form-label">Tipo de Perfil</label>
-              <select name="perfil" class="form-control" id="perfil" required>
-                <option value="usuario" {{ old('perfil') == 'usuario' ? 'selected' : '' }} >Usuário</option>
-                <option value="administrador" {{ old('perfil') == 'administrador' ? 'selected' : '' }} >Administrador</option>
+            <label for="perfil_id" class="form-label">Tipo de Perfil</label>
+              <select name="perfil_id" class="form-control" id="perfil_id" required>
+                <option value="2" {{ old('perfil_id') == '2' ? 'selected' : '' }} >Usuário</option>
+                <option value="1" {{ old('perfil_id') == '1' ? 'selected' : '' }} >Administrador</option>
             </select>
           </div>
-          @if ($errors->has('perfil'))
+          @if ($errors->has('perfil_id'))
             <div class="text-danger">{{ $errors->first('perfil') }}</div>
           @endif
 
@@ -86,7 +89,7 @@
           <!-- Botões de Ação -->
           <div class="row mt-4">
             <div class="col-6">
-              <a href="../index.php" class="btn btn-warning w-100">Voltar</a>
+              <a href="{{ route('site.login') }}" class="btn btn-warning w-100">Voltar</a>
             </div>
             <div class="col-6">
               <button type="submit" class="btn btn-success w-100">Cadastrar</button>

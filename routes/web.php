@@ -17,3 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/create', 'PessoaController@create');
 
 Route::post('/create', 'PessoaController@store')->name('app.cadastro.create');
+
+Route::get('/', 'LoginController@index')->name('site.login');
+
+Route::get('/home', 'HomeController@index' )->name('site.home');
