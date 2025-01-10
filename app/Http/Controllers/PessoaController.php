@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Pessoa;
+use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
 
 class PessoaController extends Controller
@@ -37,11 +38,10 @@ class PessoaController extends Controller
     {
 
         $regras = [
-
             'foto' => 'nullable|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'nome' => 'required|min:3|max:200',
-            'email' => 'required|min:8|max:200',
-            'senha' => 'required|min:3|max:20',
+            'name' => 'required|min:3|max:200',
+            'email' => 'required|unique:pessoas,email|min:8|max:200',
+            'password' => 'required|min:3|max:20',
             'cpf' => 'required|min:11|max:14',
             'telefone' => 'required|min:8|max:20',
             'perfil_id' => 'required'
@@ -52,12 +52,13 @@ class PessoaController extends Controller
             'foto.mimes' => 'O campo :attribute apenas recebe arquivos do tipo: jpeg, jpg, png, gif e svg.',
             'foto.max' => 'A imagem deve possuir no máximo 2MB.',
             'foto.uploaded' => 'Arquivo incompatível para upload.',
-            'nome.min' => 'A quantidade mínima de caracteres é 3.',
-            'nome.max' => 'A quantidade máxima de caracteres é 200.',
+            'name.min' => 'A quantidade mínima de caracteres é 3.',
+            'name.max' => 'A quantidade máxima de caracteres é 200.',
+            'email.unique'=> 'Usuário já cadastrado no sistema',
             'email.min' => 'A quantidade mínima de caracteres é 8.',
             'email.max' => 'A quantidade máxima de caracteres é 200.',
-            'senha.min' => 'A quantidade mínima é de 3 caracteres',
-            'senha.max' => 'A quantidade máxima é de 20 caracteres',
+            'password.min' => 'A quantidade mínima é de 3 caracteres',
+            'password.max' => 'A quantidade máxima é de 20 caracteres',
             'cpf.min' => 'A quantidade mínima de caracteres é 11.',
             'cpf.max' => 'A quantidade máxima de caracteres é 14.',
             'telefone.min' => 'A quantidade mínima de caracteres é 8.',
@@ -73,11 +74,11 @@ class PessoaController extends Controller
         }
         
         try {
-            Pessoa::create($request->all());
+            User::create($request->all());
             return redirect()->route('app.cadastro.create', ['titulo' => 'Cadastro de Usuario'])->with('mensagem', 'Cadastro realizado com sucesso!');
 
         } catch (\Exception $erro){
-            return back()->withInput()->withErrors('Falha ao realizar cadastro');
+            return back()->withInput()->withErrors('Falha ao realizar cadastro: ' . $erro->getMessage());
         }
     }
 

@@ -22,10 +22,10 @@
           <!-- Nome do Usuário -->
           <div class="form-group mb-3">
             <label for="nome" class="form-label">Nome</label>
-            <input type="text" name="nome" class="form-control" value="{{ old('nome')}}" id="nome" placeholder="Digite seu nome" required>
+            <input type="text" name="name" class="form-control" value="{{ old('name')}}" id="nome" placeholder="Digite seu nome" required>
           </div>
-          @if ($errors->has('nome'))
-            <div class="text-danger">{{ $errors->first('nome') }}</div>
+          @if ($errors->has('name'))
+            <div class="text-danger">{{ $errors->first('name') }}</div>
           @endif
 
           <!-- Número de Contato -->
@@ -58,7 +58,7 @@
           <!-- Senha -->
           <div class="form-group mb-3">
             <label for="senha" class="form-label">Senha</label>
-            <input type="password" name="senha" class="form-control" value="{{ old('senha') }}" id="senha" placeholder="Digite sua senha" required>
+            <input type="password" name="password" class="form-control" value="{{ old('password') }}" id="senha" placeholder="Digite sua senha" required>
           </div>
           @if ($errors->has('senha'))
             <div class="text-danger">{{ $errors->first('senha') }}</div>

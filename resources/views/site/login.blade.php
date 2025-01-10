@@ -38,24 +38,27 @@
         <section class="d-flex justify-content-center">
             <div class="p-5 cor-de-fundo form-container">
                 <h3 class="text-white mb-4">Registre-se</h3>
-                <form action="model/validar_login.php" method="post">
+                <form action="{{ route('site.login') }}" method="post">
                     @csrf
                     <div class="form-floating my-2">
                         <label class="text-light" for="email_input">E-mail</label>
-                        <input name="email" type="email" class="form-control" id="email_input" placeholder="digite seu email">
+                        <input name="email" type="email" value="{{ old('email') }}" class="form-control" id="email_input" placeholder="digite seu email">
+                        @if ($errors->has('email'))
+                            <div class="text-danger" >{{ $errors->first() }}</div>    
+                        @endif
                     </div>
                     <div class="form-floating">
                         <label class="text-light" for="password_input">Senha</label>
-                        <input name="senha" type="password" class="form-control" id="password_input" placeholder="digite sua senha">
+                        <input name="password" type="password" value="{{ old('password') }}" class="form-control" id="password_input" placeholder="digite sua senha">
+                        @if ($errors->has('password'))
+                            <div class="text-danger" >{{ $errors->first('password') }}</div>    
+                        @endif
                     </div>
-                    <?php
-                        if (isset($_GET["login"]) && $_GET["login"] == "erro") { ?>
-                        
+                        @if ($errors->has('login'))
                             <div class="text-danger">
-                            Usuário ou senha inválido(s)!
+                                {{ $errors->first('login') }}
                             </div>
-
-                    <?php } ?>
+                        @endif
                     <?php
                         if (isset($_GET["usuario"]) && $_GET["usuario"] == "deletado") { ?>
                         

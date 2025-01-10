@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'foto', 'name', 'email', 'password', 'cpf', 'telefone', 'perfil_id'
     ];
 
     /**
@@ -36,4 +36,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    function perfis(){
+        return $this->belongsTo(Perfis::class);
+    }
+
+    function pedidos(){
+        return $this->hasMany(Pedido::class);
+    }
 }

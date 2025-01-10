@@ -9,6 +9,6 @@ class Perfis extends Model
     protected $fillabel = [$tipo_perfil];
 
     function pessoas(){
-        return $this->hasMany(Pessoa::class);
+        return $this->hasMany(User::class);
     }
 }
