@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 class HomeController extends Controller
 {
     public function index(){
-        return view('site.home', ['titulo' => 'Home']);
+        return view('app.home', ['titulo' => 'Home']);
     }
 
     public function autenticar(Request $request){
@@ -28,10 +28,10 @@ class HomeController extends Controller
         $credenciais = $request->only('email', 'senha');
 
         if(Auth::attempt($credenciais)){
-            return redirect()->intended('site.home');
+            return redirect()->intended('app.home');
         }
         else{
-            return redirect()->back()->route('site.login');
+            return redirect()->back()->route('site.index');
         }
     }
 
@@ -39,6 +39,6 @@ class HomeController extends Controller
 
         Auth::logout();
 
-        return redirect()->route('site.login');
+        return redirect()->route('site.index');
     }
 }

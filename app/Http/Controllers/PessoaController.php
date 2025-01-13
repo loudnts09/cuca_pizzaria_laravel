@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Pessoa;
-use Illuminate\Foundation\Auth\User;
+use App\User;
 use Illuminate\Http\Request;
 
 class PessoaController extends Controller
@@ -25,7 +24,7 @@ class PessoaController extends Controller
      */
     public function create()
     {
-        return view('app.cadastro.create', ['titulo' => 'Cadastro de Usuário']);
+        return view('site.create', ['titulo' => 'Cadastro de Usuário']);
     }
 
     /**
@@ -40,7 +39,7 @@ class PessoaController extends Controller
         $regras = [
             'foto' => 'nullable|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'name' => 'required|min:3|max:200',
-            'email' => 'required|unique:pessoas,email|min:8|max:200',
+            'email' => 'required|unique:users,email|min:8|max:200',
             'password' => 'required|min:3|max:20',
             'cpf' => 'required|min:11|max:14',
             'telefone' => 'required|min:8|max:20',
@@ -72,10 +71,13 @@ class PessoaController extends Controller
             $caminhoFoto = $request->file('foto')->store('fotos', 'public');
             $request->merge(['foto' => $caminhoFoto]);
         }
+
+        $dados = $request->all();
+        $dados['password'] = bcrypt($request->input('password'));
         
         try {
-            User::create($request->all());
-            return redirect()->route('app.cadastro.create', ['titulo' => 'Cadastro de Usuario'])->with('mensagem', 'Cadastro realizado com sucesso!');
+            User::create($dados);
+            return redirect()->route('site.cadastro', ['titulo' => 'Cadastro de Usuario'])->with('mensagem', 'Cadastro realizado com sucesso!');
 
         } catch (\Exception $erro){
             return back()->withInput()->withErrors('Falha ao realizar cadastro: ' . $erro->getMessage());

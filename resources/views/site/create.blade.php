@@ -1,14 +1,35 @@
-@extends('app.layouts.basico')
+@extends('site.layouts.basico')
+
+@section('titulo', $titulo)
+
+@section('conteudo-header')
+
+  <div class="d-flex align-items-center">
+    <a href="home.php">
+      <img src="../imagens/fatia.png" id="logo" class="navbar-brand" alt="logo pizza">
+    </a>
+    <h3 class="text-white">Peça já a sua pizza</h3>
+  </div>
+  <button class="navbar-toggler navbar-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navegacao">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse justify-content-end" id="navegacao">
+    <a href="{{ route('site.login') }}" class="nav-link link-secondary text-white">Login</a>
+  </div>
+  </div>
+
+@endsection
+
 
 @section('conteudo')
 
-<main class="d-flex justify-content-center align-items-center">
+<main class="d-flex justify-content-center align-items-center" style="padding-top: 100px; padding-bottom: 100px;">
   <article class="container">
     <section class="d-flex justify-content-center">
       <div class="p-5 cor-de-fundo text-white rounded">
         <h3 class="mb-4">Cadastro de Novo Usuário</h3>
 
-        <form action="{{ route('app.cadastro.create') }}" method="post" enctype="multipart/form-data">
+        <form action="{{ route('site.store') }}" method="post" enctype="multipart/form-data">
           @csrf
           <!-- Foto do Usuário -->
           <div class="form-group mb-3">
@@ -89,7 +110,7 @@
           <!-- Botões de Ação -->
           <div class="row mt-4">
             <div class="col-6">
-              <a href="{{ route('site.login') }}" class="btn btn-warning w-100">Voltar</a>
+              <a href="{{ route('site.index') }}" class="btn btn-warning w-100">Voltar</a>
             </div>
             <div class="col-6">
               <button type="submit" class="btn btn-success w-100">Cadastrar</button>

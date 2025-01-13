@@ -21,7 +21,7 @@
     <div class="collapse navbar-collapse justify-content-end" id="navegacao">
         <ul class="navbar-nav navbar-dark">
             <li>
-                <a href="{{ route('app.cadastro.create') }}" class="nav-link link-secondary text-white">Cadastre-se</a>
+                <a href="{{ route('site.cadastro') }}" class="nav-link link-secondary text-white">Cadastre-se</a>
             </li>
             <li>
                 <a href="#" class="nav-link link-secondary text-white">Sobre nós</a>
@@ -33,7 +33,7 @@
 
 @section('conteudo')
         
-<main class="d-flex justify-content-center align-items-center vh-100">
+<main class="d-flex justify-content-center align-items-center vh-100" style="padding-top: 100px; padding-bottom:100px">
     <article class="container">
         <section class="d-flex justify-content-center">
             <div class="p-5 cor-de-fundo form-container">

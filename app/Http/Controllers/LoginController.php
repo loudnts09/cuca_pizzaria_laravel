@@ -32,7 +32,7 @@ class LoginController extends Controller
         ];
 
         if(Auth::attempt($credenciais)){
-            return redirect()->intended('site.home');
+            return redirect()->intended('/home');
         }
         else{
             return redirect()
@@ -40,13 +40,6 @@ class LoginController extends Controller
                 ->withInput()
                 ->withErrors(['login' => 'Credenciais inválidas']);
         }
-    }
-
-    public function logoff(){
-
-        Auth::logout();
-
-        return redirect()->route('site.login');
     }
 
 }

@@ -6,9 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Pedido extends Model
 {
-    protected $fillabel = [$pessoa_id, $tamanho, $sabor, $observacao, $status_pedido];
+    protected $table = 'pedidos';
+    protected $fillable = ['user_id', 'tamanho', 'sabor', 'observacao', 'status_pedido'];
 
-    function pessoa(){
+    protected $date;
+
+    function user(){
         return $this->belongsTo(User::class);
     }
 }

@@ -14,11 +14,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/cadastro', 'PessoaController@create');
-Route::post('/cadastro', 'PessoaController@store')->name('app.cadastro.create');
+Route::get('/cadastro', 'PessoaController@create')->name('site.cadastro');
+Route::post('/cadastro', 'PessoaController@store')->name('site.store');
 
-Route::get('/', 'LoginController@index')->name('site.login');
+Route::get('/', 'LoginController@index')->name('site.index');
 Route::post('/','LoginController@login')->name('site.login');
 
+Route::group(['middleware' => 'auth'], function(){
+    Route::get('/home', 'HomeController@index' )->name('app.home');
+    Route::get('/pedido', 'PedidoController@create')->name('app.pedido');
+});
 
-Route::get('/home', 'HomeController@index' )->name('site.home');
+Route::post('/home', 'HomeController@logoff')->name('site.logoff');
+Route::post('/pedido','PedidoController@store')->name('app.store');
