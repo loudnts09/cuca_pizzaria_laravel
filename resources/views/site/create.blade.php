@@ -29,7 +29,7 @@
       <div class="p-5 cor-de-fundo text-white rounded">
         <h3 class="mb-4">Cadastro de Novo Usuário</h3>
 
-        <form action="{{ route('site.store') }}" method="post" enctype="multipart/form-data">
+        <form action="{{ route('cadastro.store') }}" method="post" enctype="multipart/form-data">
           @csrf
           <!-- Foto do Usuário -->
           <div class="form-group mb-3">

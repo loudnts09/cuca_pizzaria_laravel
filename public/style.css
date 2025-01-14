@@ -36,3 +36,8 @@ main{
 .cor-de-fundo{
     background-color: rgb(30, 29, 29);
 }
+
+.com-mensagem {
+    height: auto;
+    padding-bottom: 20px;
+}

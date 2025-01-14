@@ -24,7 +24,7 @@ class PessoaController extends Controller
      */
     public function create()
     {
-        return view('site.create', ['titulo' => 'Cadastro de Usuário']);
+        return view('cadastro.create', ['titulo' => 'Cadastro de Usuário']);
     }
 
     /**
@@ -77,7 +77,7 @@ class PessoaController extends Controller
         
         try {
             User::create($dados);
-            return redirect()->route('site.cadastro', ['titulo' => 'Cadastro de Usuario'])->with('mensagem', 'Cadastro realizado com sucesso!');
+            return redirect()->route('cadastro.create', ['titulo' => 'Cadastro de Usuario'])->with('mensagem', 'Cadastro realizado com sucesso!');
 
         } catch (\Exception $erro){
             return back()->withInput()->withErrors('Falha ao realizar cadastro: ' . $erro->getMessage());

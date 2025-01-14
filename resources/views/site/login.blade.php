@@ -21,7 +21,7 @@
     <div class="collapse navbar-collapse justify-content-end" id="navegacao">
         <ul class="navbar-nav navbar-dark">
             <li>
-                <a href="{{ route('site.cadastro') }}" class="nav-link link-secondary text-white">Cadastre-se</a>
+                <a href="{{ route('cadastro.create') }}" class="nav-link link-secondary text-white">Cadastre-se</a>
             </li>
             <li>
                 <a href="#" class="nav-link link-secondary text-white">Sobre nós</a>

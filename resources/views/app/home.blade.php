@@ -40,10 +40,10 @@
           <p>Peça sua pizza favorita ou acompanhe seu pedido.</p>
           <div class="row mt-4">
             <div class="col-md-6 mb-3">
-              <a href="{{ route('app.pedido') }}" class="btn btn-primary w-100">Fazer pedido</a>
+              <a href="{{ route('pedido.create') }}" class="btn btn-primary w-100">Fazer pedido</a>
             </div>
             <div class="col-md-6">
-              <a href="../controller/ler_pedidos.php" class="btn btn-warning w-100">Meus Pedidos</a>
+              <a href="{{ route('meus_pedidos.show') }}" class="btn btn-warning w-100">Meus Pedidos</a>
             </div>
           </div>
         </div>
