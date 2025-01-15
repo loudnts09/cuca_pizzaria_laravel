@@ -22,7 +22,10 @@ class PedidoController extends Controller
             $pedidos = Pedido::where('user_id', auth()->id())->paginate(2);
         }
 
-        return view('app.exibir_pedido', compact('pedidos'), ['titulo' => 'Meus Pedidos']);
+        return view('app.exibir_pedido', compact('pedidos'), [
+            'titulo' => 'Meus Pedidos',
+            'titulo_pagina' => 'Consulta de Pedidos'
+        ]);
     }
     
     /**
@@ -32,7 +35,10 @@ class PedidoController extends Controller
      */
     public function create()
     {
-        return view("app.pedido", ['titulo' => 'Meus Pedidos']);
+        return view("app.pedido", [
+            'titulo' => 'Meus Pedidos',
+            'titulo_pagina' => 'Realizar pedido'
+        ]);
     }
 
     /**
@@ -77,7 +83,7 @@ class PedidoController extends Controller
      */
     public function show(Pedido $pedido)
     {
-        
+        //
     }
 
     /**
@@ -89,7 +95,7 @@ class PedidoController extends Controller
     public function edit(Pedido $pedido)
     {
         
-        return view('app.pedido', ['titulo' => 'Editar Pedido'] ,compact('pedido'));
+        return view('app.pedido', ['titulo' => 'Meus Pedidos', 'titulo_pagina' => 'Realizar pedido'] ,compact('pedido'));
     }
 
     /**

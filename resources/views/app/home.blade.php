@@ -16,7 +16,7 @@
   <div class="collapse navbar-collapse justify-content-end" id="navegacao">
     <ul class="navbar-nav">
       <li><a href="#" class="nav-link link-secondary text-white">Sobre nós</a></li>
-      <li><a href="../views/perfil.php" class="nav-link link-secondary text-white">Perfil</a></li>
+      <li><a href="{{ route('pessoa.index') }}" class="nav-link link-secondary text-white">Perfil</a></li>
       <li class="nav-item">
         <form action="{{ route('site.logoff') }}" method="POST" style="display: inline;">
             @csrf
@@ -43,7 +43,7 @@
               <a href="{{ route('pedido.create') }}" class="btn btn-primary w-100">Fazer pedido</a>
             </div>
             <div class="col-md-6">
-              <a href="{{ route('meus_pedidos.index') }}" class="btn btn-warning w-100">Meus Pedidos</a>
+              <a href="{{ route('pedidos.index') }}" class="btn btn-warning w-100">Meus Pedidos</a>
             </div>
           </div>
         </div>

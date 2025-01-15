@@ -4,32 +4,9 @@
 
 @section('conteudo-header')
   
-    <div class="d-flex align-items-center">
-      <a href="#">
-        <img src="../imagens/fatia.png" id="logo" class="navbar-brand" alt="logo pizza">
-      </a>
-      <h3 class="text-white">Peça já a sua pizza</h3>
-    </div>
-    <button class="navbar-toggler navbar-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navegacao">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse justify-content-end" id="navegacao">
-      <ul class="navbar-nav navbar-dark">
-        <li><a href="{{ route('home.index') }}" class="nav-link link-secondary text-white">Home</a></li>
-        <li><a href="#" class="nav-link link-secondary text-white">Sobre nós</a></li>
-        <li><a href="../controller/ler_usuario.php" class="nav-link link-secondary text-white">Perfil</a></li>
-        <li class="nav-item">
-          <form action="{{ route('site.logoff') }}" method="POST" style="display: inline;">
-              @csrf
-              <button type="submit" style="background: none; border: none; color: inherit; font: inherit; cursor: pointer;" class="nav-link link-secondary text-white">
-                  Sair
-              </button>
-          </form>
-        </li>
-      </ul>
-    </div>
+  @include('app.layouts.header', ['titulo_pagina' => $titulo_pagina])
 
-  @endsection
+@endsection
 
   @section('conteudo')
     <main class="d-flex justify-content-center align-items-center">
@@ -73,10 +50,10 @@
               @endif
               <div class="row mt-3">
                 <div class="col-6">
-                  <a class="btn btn-warning w-100 py-2" href="{{ isset($pedido) ? route('meus_pedidos.show') : route('home.index') }}">Voltar</a>
+                  <a class="btn btn-warning w-100 py-2" href="{{ route('pedidos.index') }}">Meus Pedidos</a>
                 </div>
                 <div class="col-6">
-                  <button class="btn btn-primary w-100 py-2" type="submit">{{ isset($pedido) ? 'Atualizar Pedido' : 'Enviar Pedido' }}</button>
+                  <button class="btn btn-success w-100 py-2" type="submit">{{ isset($pedido) ? 'Atualizar Pedido' : 'Enviar Pedido' }}</button>
                 </div>
               </div>
             </form>

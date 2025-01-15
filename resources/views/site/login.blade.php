@@ -59,14 +59,12 @@
                                 {{ $errors->first('login') }}
                             </div>
                         @endif
-                    <?php
-                        if (isset($_GET["usuario"]) && $_GET["usuario"] == "deletado") { ?>
                         
+                        @if (session('mensagem'))
                             <div class="text-success">
-                            Usuário excluído com sucesso!
+                                {{ session('mensagem') }}
                             </div>
-
-                    <?php } ?>
+                        @endif
                     <div class="form-check text-start my-2">
                         <input type="checkbox" class="form-check-input" id="check">
                         <label class="form-check-label text-white" for="check">Lembrar-me</label>

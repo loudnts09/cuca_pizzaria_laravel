@@ -20,7 +20,6 @@
 
 @endsection
 
-
 @section('conteudo')
 
 <main class="d-flex justify-content-center align-items-center" style="padding-top: 100px; padding-bottom: 100px;">
@@ -81,8 +80,8 @@
             <label for="senha" class="form-label">Senha</label>
             <input type="password" name="password" class="form-control" value="{{ old('password') }}" id="senha" placeholder="Digite sua senha" required>
           </div>
-          @if ($errors->has('senha'))
-            <div class="text-danger">{{ $errors->first('senha') }}</div>
+          @if ($errors->has('password'))
+            <div class="text-danger">{{ $errors->first('password') }}</div>
           @endif
 
           <!-- Tipo de Perfil -->
@@ -99,11 +98,11 @@
 
           @if (session('mensagem'))
             <div class="alert alert-success mt-4" role="alert">
-              Cadastro realizado com sucesso!
+              {{ session('mensagem') }}
             </div>
           @elseif (session('erro'))
             <div class="alert alert-danger mt-4" role="alert">
-              Falha ao realizar cadastro!
+              {{ session('erro') }}
             </div>
           @endif
 
