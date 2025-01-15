@@ -24,7 +24,7 @@ class PessoaController extends Controller
      */
     public function create()
     {
-        return view('cadastro.create', ['titulo' => 'Cadastro de Usuário']);
+        return view('site.create', ['titulo' => 'Cadastro de Usuário']);
     }
 
     /**

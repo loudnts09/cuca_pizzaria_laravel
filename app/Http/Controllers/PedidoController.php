@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Pedido;
+use App\User;
 use Illuminate\Http\Request;
 
 class PedidoController extends Controller
@@ -14,7 +15,14 @@ class PedidoController extends Controller
      */
     public function index()
     {
-        return view("app.exibir_pedido", ['titulo' => 'Consultar Pedidos']);
+        if(auth()->user()->perfil_id == 1){
+            $pedidos = Pedido::paginate(2);
+        }
+        else if(User::where('perfil_id', 2)){
+            $pedidos = Pedido::where('user_id', auth()->id())->paginate(2);
+        }
+
+        return view('app.exibir_pedido', compact('pedidos'), ['titulo' => 'Meus Pedidos']);
     }
     
     /**
@@ -69,9 +77,7 @@ class PedidoController extends Controller
      */
     public function show(Pedido $pedido)
     {
-        $pedidos = Pedido::where('user_id', auth()->id())->paginate(2);
-
-        return view('app.exibir_pedido', compact('pedidos'), ['titulo' => 'Meus Pedidos']);
+        
     }
 
     /**
@@ -95,7 +101,24 @@ class PedidoController extends Controller
      */
     public function update(Request $request, Pedido $pedido)
     {
-        return view('app.home');
+        $regras = [
+            'sabor' => 'required',
+            'tamanho' => 'required',
+            'observacao' => 'required'
+        ];
+
+        $feedbacks = [
+            'required' => 'O campo :attribute deve ser preenchido'
+        ];
+
+        $request->validate($regras, $feedbacks);
+
+        $dados = $request->all();
+        $dados['status_pedido'] = 'Em preparo';
+
+        $pedido->update($dados);
+
+        return redirect()->route('pedido.create')->with('mensagem', 'Pedido atualizado com sucesso!');
     }
 
     /**

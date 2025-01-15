@@ -43,7 +43,7 @@
               <a href="{{ route('pedido.create') }}" class="btn btn-primary w-100">Fazer pedido</a>
             </div>
             <div class="col-md-6">
-              <a href="{{ route('meus_pedidos.show') }}" class="btn btn-warning w-100">Meus Pedidos</a>
+              <a href="{{ route('meus_pedidos.index') }}" class="btn btn-warning w-100">Meus Pedidos</a>
             </div>
           </div>
         </div>

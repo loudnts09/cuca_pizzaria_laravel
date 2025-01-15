@@ -73,7 +73,7 @@
               @endif
               <div class="row mt-3">
                 <div class="col-6">
-                  <a class="btn btn-warning w-100 py-2" href="{{ route('home.index') }}">Voltar</a>
+                  <a class="btn btn-warning w-100 py-2" href="{{ isset($pedido) ? route('meus_pedidos.show') : route('home.index') }}">Voltar</a>
                 </div>
                 <div class="col-6">
                   <button class="btn btn-primary w-100 py-2" type="submit">{{ isset($pedido) ? 'Atualizar Pedido' : 'Enviar Pedido' }}</button>
