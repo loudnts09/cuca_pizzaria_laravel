@@ -37,7 +37,7 @@
     <article class="container">
         <section class="d-flex justify-content-center">
             <div class="p-5 cor-de-fundo form-container">
-                <h3 class="text-white mb-4">Registre-se</h3>
+                <h3 class="text-white mb-4">Entrar</h3>
                 <form action="{{ route('site.login') }}" method="post">
                     @csrf
                     <div class="form-floating my-2">
@@ -66,7 +66,7 @@
                             </div>
                         @endif
                     <div class="form-check text-start my-2">
-                        <input type="checkbox" class="form-check-input" id="check">
+                        <input type="checkbox" class="form-check-input" id="check" name="remember">
                         <label class="form-check-label text-white" for="check">Lembrar-me</label>
                     </div>
                     <button class="btn btn-primary w-100 py-2">Entrar</button>

@@ -31,7 +31,9 @@ class LoginController extends Controller
             'password' => $request->input('password')
         ];
 
-        if(Auth::attempt($credenciais)){
+        $remember = $request->has('remember');
+
+        if(Auth::attempt($credenciais, $remember)){
             return redirect()->intended('/home');
         }
         else{
