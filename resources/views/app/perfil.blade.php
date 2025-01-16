@@ -17,7 +17,14 @@
             <ul class="navbar-nav">
               <li><a href="#" class="nav-link link-secondary text-white">Sobre nós</a></li>
               <li><a href="{{ route('home.index') }}" class="nav-link link-secondary text-white">Home</a></li>
-              <li><a href="{{ route('site.logoff') }}" class="nav-link link-secondary text-white">Sair</a></li>
+              <li class="nav-item">
+                <form action="{{ route('site.logoff') }}" method="POST" style="display: inline;">
+                    @csrf
+                    <button type="submit" style="background: none; border: none; color: inherit; font: inherit; cursor: pointer;" class="nav-link link-secondary text-white">
+                        Sair
+                    </button>
+                </form>
+              </li>
             </ul>
           </div>
 
@@ -34,8 +41,11 @@
               @csrf
               @method('PUT')
               <!-- Foto do Usuário -->
-              <div class="form-goup mb-3">
+              <div class="form-goup mb-3 text-center">
                 <img src=" {{ asset('storage/' . $pessoa->foto) }}" alt="Foto do usuário" class="rounded-circle mb-3" width="120" height="120"><br>
+              </div>
+
+              <div class="form-group mb-3">
                 <label for="foto" class="form-label">Foto</label>
                 <input type="file" name="foto" class="form-control" id="foto" accept="image/*">
               </div>
@@ -93,7 +103,7 @@
                 <label for="perfil" class="form-label">Tipo de Perfil</label>
                   <select id="perfil" name="perfil_id" class="form-control" required>
                     <option value="2" {{ $pessoa->perfil_id == 2 ? 'selected' : ""}} >Usuário</option>
-                    <option value="1" {{$pessoa->perfil == 1 ? 'selected' : ""}} >Administrador</option>
+                    <option value="1" {{$pessoa->perfil_id == 1 ? 'selected' : ""}} >Administrador</option>
                 </select>
               </div>
 

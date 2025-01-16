@@ -3,6 +3,8 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -43,13 +45,21 @@ class Handler extends ExceptionHandler
      * Render an exception into an HTTP response.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \Throwable  $exception
+     * @param  \Throwable  $exc eption
      * @return \Symfony\Component\HttpFoundation\Response
      *
      * @throws \Throwable
      */
     public function render($request, Throwable $exception)
     {
+        //verifica se a exceção é uma HttpException
+        //verifica se a variável $exception é uma instância da classe HttpException,
+        //que está localizada no namespace Symfony\Component\HttpKernel\Exception.
+        //isso é necessário para garantir que estamos lidando com uma exceção relacionada a HTTP.
+        if ($exception instanceof HttpException && $exception->getStatusCode() == 404) {
+            return response()->view('errors.404', [], 404);
+        }
+
         return parent::render($request, $exception);
     }
 }
