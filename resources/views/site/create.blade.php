@@ -5,7 +5,7 @@
 @section('conteudo-header')
 
   <div class="d-flex align-items-center">
-    <a href="home.php">
+    <a href="{{route('site.index')}}">
       <img src="../imagens/fatia.png" id="logo" class="navbar-brand" alt="logo pizza">
     </a>
     <h3 class="text-white">Peça já a sua pizza</h3>

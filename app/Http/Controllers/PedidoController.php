@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Pedido;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PedidoController extends Controller
 {
@@ -94,8 +95,19 @@ class PedidoController extends Controller
      */
     public function edit(Pedido $pedido)
     {
+        if(Auth::check()){
+            if(Auth::user()->id == $pedido->user_id){
+                return view('app.pedido', ['titulo' => 'Meus Pedidos', 'titulo_pagina' => 'Realizar pedido'] ,compact('pedido'));
+            }
+            else{
+                return redirect()->route('.index');
+            }
+        }
+        else{
+            return redirect()->route('site.login');
+
+        }
         
-        return view('app.pedido', ['titulo' => 'Meus Pedidos', 'titulo_pagina' => 'Realizar pedido'] ,compact('pedido'));
     }
 
     /**

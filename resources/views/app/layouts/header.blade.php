@@ -1,7 +1,7 @@
 <div class="d-flex align-items-center">
     <!-- Logo -->
-    <a href="#">
-        <img src="../imagens/fatia.png" id="logo" class="navbar-brand" alt="logo pizza">
+    <a href="{{route('home.index')}}">
+        <img src="{{ asset('imagens/fatia.png')}}" id="logo" class="navbar-brand" alt="logo pizza">
     </a>
     <h3 class="text-white">{{ $titulo_pagina }}</h3>
 </div>

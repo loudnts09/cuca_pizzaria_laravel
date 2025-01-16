@@ -16,7 +16,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'LoginController@index')->name('site.index');
 Route::post('/','LoginController@login')->name('site.login');
-Route::post('/home', 'HomeController@logoff')->name('site.logoff');
 
 Route::get('/cadastro', 'PessoaController@create')->name('cadastro.create');
 Route::post('/cadastro', 'PessoaController@store')->name('cadastro.store');
@@ -24,6 +23,7 @@ Route::post('/cadastro', 'PessoaController@store')->name('cadastro.store');
 Route::group(['middleware' => 'auth'], function(){
 
     Route::get('/home', 'HomeController@index' )->name('home.index');
+    Route::post('/home', 'HomeController@logoff')->name('site.logoff');
 
     Route::get('/perfil','PessoaController@index')->name('pessoa.index');
     Route::put('/perfil/{id}', 'PessoaController@update')->name('pessoa.update');
