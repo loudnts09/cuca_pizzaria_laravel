@@ -50,7 +50,6 @@ class PedidoController extends Controller
      */
     public function store(Request $request)
     {
-
         $regras = [
             'sabor' => 'required',
             'tamanho' => 'required',
@@ -64,6 +63,7 @@ class PedidoController extends Controller
         $request->validate($regras, $feedbacks);
 
         $dados = $request->all();
+
         $dados['user_id'] = auth()->id();
         $dados['status_pedido'] = 'Em preparo';
 
@@ -96,16 +96,15 @@ class PedidoController extends Controller
     public function edit(Pedido $pedido)
     {
         if(Auth::check()){
-            if(Auth::user()->id == $pedido->user_id){
+            if(Auth::user()->id == $pedido->user_id || (Auth::user()->perfil_id == 1)){
                 return view('app.pedido', ['titulo' => 'Meus Pedidos', 'titulo_pagina' => 'Realizar pedido'] ,compact('pedido'));
             }
             else{
-                return redirect()->route('.index');
+                return redirect()->route('pedidos.index');
             }
         }
         else{
             return redirect()->route('site.login');
-
         }
         
     }
@@ -119,19 +118,21 @@ class PedidoController extends Controller
      */
     public function update(Request $request, Pedido $pedido)
     {
+        
         $regras = [
             'sabor' => 'required',
             'tamanho' => 'required',
-            'observacao' => 'required'
+            'observacao' => 'nullable'
         ];
-
+        
         $feedbacks = [
             'required' => 'O campo :attribute deve ser preenchido'
         ];
-
+        
         $request->validate($regras, $feedbacks);
-
+        
         $dados = $request->all();
+        
         $dados['status_pedido'] = 'Em preparo';
 
         $pedido->update($dados);
@@ -149,6 +150,6 @@ class PedidoController extends Controller
     {
         $pedido->delete();
 
-        return redirect()->route('meus_pedidos.show')->with('mensagem', 'Pedido excluído com sucesso!');
+        return redirect()->route('pedidos.index')->with('mensagem', 'Pedido excluído com sucesso!');
     }
 }

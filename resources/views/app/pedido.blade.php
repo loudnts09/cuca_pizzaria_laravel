@@ -34,7 +34,7 @@
               </div>
               <div class="form-floating my-1">
                 <label for="ingredientes">Ingredientes Adicionais</label>
-                <textarea name="observacao" class="form-control" id="ingredientes" placeholder="ex: borda de chocolate, manjericão..." style="height: 100px;" required>{{ isset($pedido) ? $pedido->observacao : "" }}</textarea>
+                <textarea name="observacao" class="form-control" id="ingredientes" placeholder="ex: borda de chocolate, manjericão..." style="height: 100px;">{{ isset($pedido) ? $pedido->observacao : "" }}</textarea>
               </div>
               @if(session('mensagem'))
               
