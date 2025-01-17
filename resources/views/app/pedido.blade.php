@@ -42,10 +42,10 @@
                   {{ session('mensagem') }}
                 </div>
               
-                @elseif(session('erro'))
+                @elseif(session('error'))
 
                 <div class="text-success m-1">
-                  {{ session('erro') }}
+                  {{ session('error') }}
                 </div>
               @endif
               <div class="row mt-3">

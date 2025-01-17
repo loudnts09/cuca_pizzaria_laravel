@@ -70,12 +70,14 @@ class PessoaController extends Controller
 
         
         $request->validate($regras, $feedbacks);
+
+        $dados = $request->all();
         
         if($request->hasFile('foto')){
             $caminhoFoto = $request->file('foto')->store('fotos', 'public');
             $dados['foto'] = $caminhoFoto;
         }
-        $dados = $request->all();
+        
         $dados['password'] = bcrypt($request->input('password'));
         
         try {

@@ -16,6 +16,15 @@
             <div class="row">
                 <div style="padding: 30px 0 0 0; width: 100%; margin: 0 auto;">
                     <div class="card cor-de-fundo text-white m-5">
+                        <form action="" method="post">
+                            @csrf
+                            <div class="card-header ml-1 mt-2 row">
+                                <input type="text" class="form-control col-md-10" name="pedido" placeholder="Buscar pedido" id="buscar_pedido">
+                                <button type="submit" class="btn btn-primary col-2" title="pesquisar">
+                                    <i class="fa fa-search fa-lg" ></i>
+                                </button>
+                            </div>
+                        </form>
                         <div class="card-header">
                             <h4>Pedidos Realizados:</h4>
                         </div>

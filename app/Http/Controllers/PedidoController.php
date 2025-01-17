@@ -53,7 +53,7 @@ class PedidoController extends Controller
         $regras = [
             'sabor' => 'required',
             'tamanho' => 'required',
-            'observacao' => 'required'
+            'observacao' => 'nullable'
         ];
 
         $feedbacks = [
@@ -72,7 +72,7 @@ class PedidoController extends Controller
             return redirect()->route('pedido.store', ['titulo', 'Meus Pedidos'])->with('mensagem','Pedido realizado com sucesso!');
         }
         catch(\Exception $e){
-            return redirect()->back()->withErrors($e->getMessage());
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 
@@ -135,9 +135,12 @@ class PedidoController extends Controller
         
         $dados['status_pedido'] = 'Em preparo';
 
-        $pedido->update($dados);
-
-        return redirect()->route('pedido.create')->with('mensagem', 'Pedido atualizado com sucesso!');
+        try{
+            $pedido->update($dados);
+            return redirect()->route('pedido.create')->with('mensagem', 'Pedido atualizado com sucesso!');
+        } catch(\Exception $e){
+            return redirect()->route('pedido.create')->with('error', 'Não foi possível atualizar o pedido: ' . $e->getMessage());
+        }
     }
 
     /**

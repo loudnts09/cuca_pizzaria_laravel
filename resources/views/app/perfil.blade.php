@@ -65,7 +65,7 @@
               <!-- Número de Contato -->
               <div class="form-group mb-3">
                 <label for="numero" class="form-label">Número de Telefone</label>
-                <input type="tel" id="numero" name="telefone" class="form-control" placeholder="(XX) XXXXX-XXXX" value="{{ $pessoa->telefone }}">
+                <input type="tel" data-mask="(00) 00000-0000" id="numero" name="telefone" class="form-control" placeholder="(##) #####-#####" value="{{ $pessoa->telefone }}">
               </div>
               @if ($errors->has('telefone'))
                 <div class="text-danger">{{ $errors->first('telefone') }}</div>
@@ -74,7 +74,7 @@
               <!-- CPF do Usuário -->
               <div class="form-group mb-3">
                 <label for="cpf" class="form-label" >CPF</label>
-                <input type="text" id="cpf" name="cpf" class="form-control" placeholder="Digite seu CPF" value="{{ $pessoa->cpf }}">
+                <input type="text" id="cpf" data-mask="000.000.000-00" name="cpf" class="form-control" placeholder="###.###.###-##" value="{{ $pessoa->cpf }}">
               </div>
               @if ($errors->has('cpf'))
                 <div class="text-danger">{{ $errors->first('cpf') }}</div>
