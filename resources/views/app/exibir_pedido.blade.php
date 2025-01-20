@@ -16,15 +16,20 @@
             <div class="row">
                 <div style="padding: 30px 0 0 0; width: 100%; margin: 0 auto;">
                     <div class="card cor-de-fundo text-white m-5">
-                        <form action="" method="post">
-                            @csrf
-                            <div class="card-header ml-1 mt-2 row">
-                                <input type="text" class="form-control col-md-10" name="pedido" placeholder="Buscar pedido" id="buscar_pedido">
-                                <button type="submit" class="btn btn-primary col-2" title="pesquisar">
-                                    <i class="fa fa-search fa-lg" ></i>
-                                </button>
-                            </div>
-                        </form>
+                        <div class="col-md-12">
+                            <form action="{{ route('pedidos.index') }}" method="get">
+                                @csrf
+                                <div class="card-header mt-2 row">
+                                    <div class="col-md-11">
+                                        <input type="text" class="form-control" name="pedido" placeholder="Buscar pedido" id="buscar_pedido">
+                                    </div>
+                                    <div class="col-md-1">
+                                        <button type="submit" class="btn btn-primary  w-100 h-100" title="pesquisar">
+                                            <i class="bi bi-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
                         <div class="card-header">
                             <h4>Pedidos Realizados:</h4>
                         </div>
@@ -35,9 +40,9 @@
                                 <h3 class="text-center">NAO HÁ PEDIDOS</h3>
                             @else
                                 @foreach ($pedidos as $pedido)
-                                    <div class="card bg-dark text-dark mt-2">
-                                        <div class="card bg-light text-dark">
-                                            <h5 class="card-title m-3">{{ $pedido->id }}</h5>
+                                    <div class="card bg-dark text-dark">
+                                        <div class="card bg-light mb-1 text-dark">
+                                            <h5 class="card-title m-3">Pedido: {{ $pedido->id }}</h5>
                                             <h6 class="card-subtitle mb-2 mx-3 text-muted">{{ $pedido->sabor }} - {{ $pedido->tamanho }}</h6>
                                             <p class="card-text mx-3">{{ $pedido->observacao }}</p>
                                             <p class="card-text mx-3 mb-2">Status: <span class="text-success">{{ $pedido->status_pedido }}</span></p>
@@ -64,7 +69,11 @@
                                         {{ session('mensagem') }}
                                     </div>
                                 @endif
-                                <a href="{{ route('home.index') }}" class="btn btn-lg btn-warning" style="width: 100%;" >Voltar</a>
+                                @if (request()->has('pedido'))
+                                    <a href="{{ route('pedidos.index') }}" class="btn btn-lg btn-warning" style="width: 100%;" >Voltar</a>
+                                @else
+                                    <a href="{{ route('home.index') }}" class="btn btn-lg btn-warning" style="width: 100%;" >Voltar</a>
+                                @endif
                             </div>
                         </div>
                     </div>

@@ -6,6 +6,7 @@ use App\Pedido;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class PedidoController extends Controller
 {
@@ -14,13 +15,43 @@ class PedidoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $pedido = strtolower($request->pedido);
+        
         if(auth()->user()->perfil_id == 1){
-            $pedidos = Pedido::paginate(2);
+            $pedidos = DB::table('pedidos')
+                ->paginate(2);
+
+            if($request->filled('pedido')){
+                $pedidos = DB::table('pedidos')
+                    ->where(function ($query) use($pedido){
+                        $query->where('id', $pedido)                  
+                            ->orWhere('tamanho', 'like', '%' . $pedido . '%')
+                            ->orWhere('sabor', 'like', '%' . $pedido . '%')
+                            ->orWhere('observacao', 'like', '%' . $pedido . '%')
+                            ->orWhere('status_pedido', 'like', '%' . $pedido . '%');
+                    })
+                    ->paginate(2);
+            }
         }
-        else if(User::where('perfil_id', 2)){
-            $pedidos = Pedido::where('user_id', auth()->id())->paginate(2);
+        else if(auth()->user()->perfil_id == 2){
+            $pedidos = DB::table('pedidos')
+                ->where('user_id', auth()->user()->id)
+                ->paginate(2);
+            
+            if($request->filled('pedido')){
+                $pedidos = DB::table('pedidos')
+                                ->where( 'user_id', auth()->user()->id)
+                                ->where(function ($query) use ($pedido){
+                                    $query->where('id', $pedido)
+                                        ->orWhere('tamanho', 'like', '%' . $pedido . '%')
+                                        ->orWhere('sabor', 'like', '%' . $pedido . '%' )
+                                        ->orWhere('observacao', 'like', '%' . $pedido . '%')
+                                        ->orWhere('status_pedido', 'like', '%' . $pedido . '%');
+                                })
+                                ->paginate(2);
+            }
         }
 
         return view('app.exibir_pedido', compact('pedidos'), [
@@ -68,7 +99,7 @@ class PedidoController extends Controller
         $dados['status_pedido'] = 'Em preparo';
 
         try{
-            Pedido::create($dados);
+            Pedido::create(array_map('strtolower', $dados));
             return redirect()->route('pedido.store', ['titulo', 'Meus Pedidos'])->with('mensagem','Pedido realizado com sucesso!');
         }
         catch(\Exception $e){
