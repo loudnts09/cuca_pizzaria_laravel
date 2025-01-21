@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Pedido;
+use App\Sabor;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,34 +22,43 @@ class PedidoController extends Controller
         
         if(auth()->user()->perfil_id == 1){
             $pedidos = DB::table('pedidos')
+                ->join('sabores', 'pedidos.sabor_id', '=', 'sabores.id')
+                ->select('pedidos.*', 'sabores.sabor as sabor')
                 ->paginate(2);
+
 
             if($request->filled('pedido')){
                 $pedidos = DB::table('pedidos')
+                    ->join('sabores', 'pedidos.sabor_id', '=', 'sabores.id')
+                    ->select('pedidos.*', 'sabores.sabor as sabor')
                     ->where(function ($query) use($pedido){
-                        $query->where('id', $pedido)                  
-                            ->orWhere('tamanho', 'like', '%' . $pedido . '%')
-                            ->orWhere('sabor', 'like', '%' . $pedido . '%')
-                            ->orWhere('observacao', 'like', '%' . $pedido . '%')
-                            ->orWhere('status_pedido', 'like', '%' . $pedido . '%');
+                        $query->where('pedidos.id', $pedido)                  
+                            ->orWhere('pedidos.tamanho', 'like', '%' . $pedido . '%')
+                            ->orWhere('sabores.sabor', 'like', '%' . $pedido . '%')
+                            ->orWhere('pedidos.observacao', 'like', '%' . $pedido . '%')
+                            ->orWhere('pedidos.status_pedido', 'like', '%' . $pedido . '%');
                     })
                     ->paginate(2);
             }
         }
         else if(auth()->user()->perfil_id == 2){
             $pedidos = DB::table('pedidos')
-                ->where('user_id', auth()->user()->id)
+                ->join('sabores', 'pedidos.sabor_id', '=', 'sabores.id')
+                ->select('pedidos.*', 'sabores.sabor as sabor')
+                ->where('pedidos.user_id', auth()->user()->id)
                 ->paginate(2);
             
             if($request->filled('pedido')){
                 $pedidos = DB::table('pedidos')
-                                ->where( 'user_id', auth()->user()->id)
+                                ->join('sabores', 'pedidos.sabor_id', '=', 'sabores.id')
+                                ->select('pedidos.*', 'sabores.sabor as sabor')
+                                ->where( 'pedidos.user_id', auth()->user()->id)
                                 ->where(function ($query) use ($pedido){
-                                    $query->where('id', $pedido)
-                                        ->orWhere('tamanho', 'like', '%' . $pedido . '%')
-                                        ->orWhere('sabor', 'like', '%' . $pedido . '%' )
-                                        ->orWhere('observacao', 'like', '%' . $pedido . '%')
-                                        ->orWhere('status_pedido', 'like', '%' . $pedido . '%');
+                                    $query->where('pedidos.id', $pedido)
+                                        ->orWhere('pedidos.tamanho', 'like', '%' . $pedido . '%')
+                                        ->orWhere('sabores.sabor', 'like', '%' . $pedido . '%' )
+                                        ->orWhere('pedidos.observacao', 'like', '%' . $pedido . '%')
+                                        ->orWhere('pedidos.status_pedido', 'like', '%' . $pedido . '%');
                                 })
                                 ->paginate(2);
             }
@@ -67,9 +77,11 @@ class PedidoController extends Controller
      */
     public function create()
     {
-        return view("app.pedido", [
+        $sabores = Sabor::all();
+
+        return view("app.pedido", compact('sabores'), [
             'titulo' => 'Meus Pedidos',
-            'titulo_pagina' => 'Realizar pedido'
+            'titulo_pagina' => 'Realizar pedido',
         ]);
     }
 
@@ -82,8 +94,9 @@ class PedidoController extends Controller
     public function store(Request $request)
     {
         $regras = [
-            'sabor' => 'required',
+            'sabor_id' => 'required',
             'tamanho' => 'required',
+            'quantidade' => 'required',
             'observacao' => 'nullable'
         ];
 
@@ -92,6 +105,8 @@ class PedidoController extends Controller
         ];
 
         $request->validate($regras, $feedbacks);
+
+        $pedidi = Pedido::create($request->all());
 
         $dados = $request->all();
 
@@ -126,9 +141,11 @@ class PedidoController extends Controller
      */
     public function edit(Pedido $pedido)
     {
+        $sabores = Sabor::all();
+
         if(Auth::check()){
             if(Auth::user()->id == $pedido->user_id || (Auth::user()->perfil_id == 1)){
-                return view('app.pedido', ['titulo' => 'Meus Pedidos', 'titulo_pagina' => 'Realizar pedido'] ,compact('pedido'));
+                return view('app.pedido', ['titulo' => 'Meus Pedidos', 'titulo_pagina' => 'Realizar pedido'] ,compact('pedido', 'sabores'));
             }
             else{
                 return redirect()->route('pedidos.index');
