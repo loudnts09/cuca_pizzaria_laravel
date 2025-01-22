@@ -36,9 +36,10 @@ Route::group(['middleware' => 'auth'], function(){
         Route::delete('/meus/{pedido}','PedidoController@destroy')->name('pedido.destroy');
         Route::get('/meus/editar/{pedido}', 'PedidoController@edit')->name('pedido.edit');
         Route::put('/meus/editar/{pedido}', 'PedidoController@update')->name('pedido.update');
-
+        
+        Route::post('/itens-pedido', 'ItemPedidoController@store')->name('item.store');
+        Route::delete('/remover-item/{index}', 'ItemPedidoController@destroy')->name('item.destroy');
     });
-    
 });
 
 Route::fallback(function () {

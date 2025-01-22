@@ -24,7 +24,12 @@
             <a href="{{ route('pessoa.index') }}" class="nav-link link-secondary text-white">Perfil</a>
         </li>
         <li>
-            <a href="{{ route('site.logoff') }}" class="nav-link link-secondary text-white">Sair</a>
+            <form action="{{ route('site.logoff') }}" method="POST" style="display: inline;">
+                @csrf
+                <button type="submit" style="background: none; border: none; color: inherit; font: inherit; cursor: pointer;" class="nav-link link-secondary text-white">
+                    Sair
+                </button>
+            </form>
         </li>
     </ul>
 </div>
