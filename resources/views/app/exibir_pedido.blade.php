@@ -42,12 +42,12 @@
                                 @foreach ($pedidos as $pedido)
                                     <div class="card bg-dark text-dark">
                                         <div class="card bg-light mb-1 text-dark">
-                                            <h5 class="card-title m-3">Pedido: {{ $pedido->id }}</h5>
+                                            <h5 class="card-title m-3">Pedido: {{ $pedido->pedido_id }}</h5>
                                             <h6 class="card-subtitle mb-2 mx-3 text-muted">{{ $pedido->sabor }} - {{ $pedido->tamanho }}</h6>
                                             <p class="card-text mx-3">{{ $pedido->observacao }}</p>
                                             <p class="card-text mx-3 mb-2">Status: <span class="text-success">{{ $pedido->status_pedido }}</span></p>
                                             <div class="d-flex justify-content-end">
-                                                <a href="{{ route('pedido.edit', $pedido->id) }}" class="btn btn-sm btn-primary mx-1">Editar</a>
+                                                <a href="{{ route('pedido.edit', $pedido->pedido_id, $pedido->id) }}" class="btn btn-sm btn-primary mx-1">Editar</a>
                                                 <form action="{{ route('pedido.destroy', $pedido->id) }}" method="post">
                                                     @csrf
                                                     @method('DELETE')

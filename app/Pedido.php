@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Pedido extends Model
 {
     protected $table = 'pedidos';
-    protected $fillable = ['user_id', 'observacao', 'status_pedido'];
+    protected $fillable = ['user_id', 'status_pedido'];
 
     protected $date;
 

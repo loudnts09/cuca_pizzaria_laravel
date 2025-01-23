@@ -57,7 +57,7 @@
               
                 @elseif(session('error'))
 
-                <div class="text-success m-1">
+                <div class="text-danger m-1">
                   {{ session('error') }}
                 </div>
               @endif
@@ -71,16 +71,15 @@
                   </div>
                 @endif
               </div>
-              <div class="mt-3">
-                <button class="btn btn-success w-100 py-2" type="{{ route('pedido.store') }}">{{ isset($pedido) ? 'Atualizar Pedido' : 'Enviar Pedido' }}</button>
-              </div>
             </form>
           </div>
         </section>
         <section class="col-4 d-flex justify-content-center">
           <div class="p-4 cor-de-fundo form-container text-white {{ session('mensagem') ? "com-mensagem" : "" }}">
             <h3 class="mt-2">Itens Adicionados:</h3>
-            @if (session("itens_pedido"))
+            @if (!session("itens_pedido"))
+              <br><br><br><h3 class="text-center border border-white rounded">NAO HÁ PEDIDOS</h3>
+            @else
               <ul class="list-group" style="max-height:400px; overflow-y: scroll;">
                 @foreach (session("itens_pedido") as $index => $item)
                   <li class="list-group-item d-flex flex-column justify-content-between text-dark m-1">
@@ -103,6 +102,21 @@
                 @endforeach
               </ul>
             @endif
+            <form action="{{ route('pedido.store' ) }}" method="post">
+              @csrf
+              <input type="hidden" name="itens_pedido" value="{{ json_encode(session('itens_pedido')) }}">
+              <div>
+                <div class="mt-3">
+                  <button class="btn btn-success w-100 py-2" type="submit">{{ isset($pedido) ? 'Atualizar Pedido' : 'Enviar Pedido' }}</button>
+                </div>
+                <div class="form-check mt-3 ml-1">
+                  <input class="form-check-input" value="#" type="checkbox" id="exportar" style="transform: scale(1.5);">
+                  <label class="form-check-label" for="exportar">
+                    Exportar PDF
+                  </label>
+                </div>
+              </div>
+            </form>
           </div>
         </section>
       </article>

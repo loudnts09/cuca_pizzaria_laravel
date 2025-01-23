@@ -8,7 +8,7 @@ class Item_pedido extends Model
 {
     protected $table = "itens_pedido";
 
-    protected $fillabel = ['pedido_id', 'tamanho', 'sabor_id', 'quantidade', 'observacao'];
+    protected $fillable = ['pedido_id', 'tamanho', 'sabor_id', 'quantidade', 'observacao'];
 
     function pedido(){
         return $this->belongsTo(Pedido::class);
