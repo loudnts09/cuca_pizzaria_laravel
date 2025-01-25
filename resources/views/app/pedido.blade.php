@@ -9,28 +9,41 @@
 @endsection
 
   @section('conteudo')
-    <main class="d-flex justify-content-center align-items-center">
+    <main class="d-flex justify-content-center align-items-center" style="width: 1500px">
       <article class="container">
         <section class="d-flex justify-content-center">
           <div class="p-4 cor-de-fundo form-container text-white {{ session('mensagem') ? "com-mensagem" : "" }}">
-            <h3 class="text-white mb-4">Faça seu Pedido</h3>
+            <h3 class="text-white mb-2">Faça seu Pedido</h3>
             <form method="post" action="{{ isset($pedido) ? route('pedido.update', $pedido->id) : route('pedido.store') }}">
               @csrf
               @if (isset($pedido))
-                @method('PUT')
+              @method('PUT')
               @endif
-              <div class="form-floating my-1">
-                <label for="nome_da_pizza">Nome da Pizza</label>
-                <input name="sabor" type="text" class="form-control" id="nome_da_pizza" placeholder="ex: calabresa, marguerita..." value="{{ isset($pedido) ? $pedido->sabor : ""}}" required>
-              </div>
-              <div class="form-floating my-1">
-                <select name="tamanho" class="form-select" id="tamanho">
+              <div class="form-floating">
+                <label for="tamanho">Sabor</label>
+                <select name="tamanho" class="form-select w-100" style="max-height: 50px; overflow-y: scroll;" id="tamanho">
+                 
+                  <option value="Pequena" {{ (isset($pedido) && $pedido->tamanho == 'Pequena') ? 'selected' : '' }}>Pequena</option>
+                  <option value="Pequena" {{ (isset($pedido) && $pedido->tamanho == 'Pequena') ? 'selected' : '' }}>Pequena</option>
+                  <option value="Pequena" {{ (isset($pedido) && $pedido->tamanho == 'Pequena') ? 'selected' : '' }}>Pequena</option>
+                  <option value="Pequena" {{ (isset($pedido) && $pedido->tamanho == 'Pequena') ? 'selected' : '' }}>Pequena</option>
+                  <option value="Pequena" {{ (isset($pedido) && $pedido->tamanho == 'Pequena') ? 'selected' : '' }}>Pequena</option>
+                  <option value="Pequena" {{ (isset($pedido) && $pedido->tamanho == 'Pequena') ? 'selected' : '' }}>Pequena</option>
+                  <option value="Pequena" {{ (isset($pedido) && $pedido->tamanho == 'Pequena') ? 'selected' : '' }}>Pequena</option>
                   <option value="Pequena" {{ (isset($pedido) && $pedido->tamanho == 'Pequena') ? 'selected' : '' }}>Pequena</option>
                   <option value="Média" {{ (isset($pedido) && $pedido->tamanho == 'Média') ? 'selected' : '' }}>Média</option>
                   <option value="Grande" {{ (isset($pedido) && $pedido->tamanho == 'Grande') ? 'selected' : '' }}>Grande</option>
                   <option value="Família" {{ (isset($pedido) && $pedido->tamanho == 'Família') ? 'selected' : '' }}>Família</option>
                 </select>
+              </div>
+              <div class="form-floating my-1">
                 <label for="tamanho">Tamanho</label>
+                <select name="tamanho" class="form-select w-100" id="tamanho">
+                  <option value="Pequena" {{ (isset($pedido) && $pedido->tamanho == 'Pequena') ? 'selected' : '' }}>Pequena</option>
+                  <option value="Média" {{ (isset($pedido) && $pedido->tamanho == 'Média') ? 'selected' : '' }}>Média</option>
+                  <option value="Grande" {{ (isset($pedido) && $pedido->tamanho == 'Grande') ? 'selected' : '' }}>Grande</option>
+                  <option value="Família" {{ (isset($pedido) && $pedido->tamanho == 'Família') ? 'selected' : '' }}>Família</option>
+                </select>
               </div>
               <div class="form-floating my-1">
                 <label for="ingredientes">Ingredientes Adicionais</label>
