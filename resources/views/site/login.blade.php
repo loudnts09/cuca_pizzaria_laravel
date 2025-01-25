@@ -37,7 +37,7 @@
     <article class="container">
         <section class="d-flex justify-content-center">
             <div class="p-5 cor-de-fundo form-container">
-                <h3 class="text-white mb-4">Entrar</h3>
+                <h3 class="text-white">Entrar</h3>
                 <form action="{{ route('site.login') }}" method="post">
                     @csrf
                     <div class="form-floating my-2">

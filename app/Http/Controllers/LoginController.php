@@ -21,7 +21,8 @@ class LoginController extends Controller
 
         $feedbacks = [
             'email.email' => 'Digite um e-mail válido',
-            'required' => 'O campo :attribute é obrigatório'
+            'email.required' => 'O campo e-mail é obrigatório',
+            'password.required' => 'O campo senha é obrigatório'
         ];
 
         $request->validate($regras, $feedbacks);

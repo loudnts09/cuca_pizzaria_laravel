@@ -8,7 +8,7 @@ class Perfis extends Model
 {
     protected $fillabel = ['tipo_perfil'];
 
-    function pessoas(){
+    function users(){
         return $this->hasMany(User::class);
     }
 }

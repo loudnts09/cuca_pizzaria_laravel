@@ -79,9 +79,13 @@ class PessoaController extends Controller
         }
         
         $dados['password'] = bcrypt($request->input('password'));
+
+        $dados_filtrados = array_map(function ($valor){
+            return trim(strtolower($valor));
+        }, $dados);
         
         try {
-            User::create(array_map('strtolower', $dados));
+            User::create($dados_filtrados);
             return redirect()->route('cadastro.create', ['titulo' => 'Cadastro de Usuario'])->with('mensagem', 'Cadastro realizado com sucesso!');
 
         } catch (\Exception $erro){

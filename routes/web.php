@@ -34,11 +34,12 @@ Route::group(['middleware' => 'auth'], function(){
         Route::post('/novo','PedidoController@store')->name('pedido.store');
         Route::get('/meus', 'PedidoController@index')->name('pedidos.index');
         Route::delete('/meus/{pedido}','PedidoController@destroy')->name('pedido.destroy');
-        Route::get('/meus/editar/{pedido}', 'PedidoController@edit')->name('pedido.edit');
+        Route::get('/meus/editar/{pedido}/{item}', 'PedidoController@edit')->name('pedido.edit');
         Route::put('/meus/editar/{pedido}', 'PedidoController@update')->name('pedido.update');
-
+        
+        Route::post('/itens-pedido', 'ItemPedidoController@store')->name('item.store');
+        Route::delete('/remover-item/{index}', 'ItemPedidoController@destroy')->name('item.destroy');
     });
-    
 });
 
 Route::fallback(function () {
