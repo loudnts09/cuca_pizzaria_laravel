@@ -116,7 +116,7 @@ class PedidoController extends Controller
         ];
         
         $request->validate($regras, $feedbacks);
-
+        
         DB::beginTransaction();
         
         try{
@@ -134,9 +134,10 @@ class PedidoController extends Controller
                     'observacao' => isset($item['observacao']) ? strtolower($item['observacao']) : null
                 ]);
             }
-
+            
             DB::commit();
-
+            
+            //remove os itens da sessão após serem processados e salvos no bd
             session()->forget('itens_pedido');
             
             return redirect()->route('pedido.store', ['titulo', 'Meus Pedidos'])->with('mensagem','Pedido realizado com sucesso!');
@@ -165,20 +166,30 @@ class PedidoController extends Controller
      * @param  \App\Pedido  $pedido
      * @return \Illuminate\Http\Response
      */
-    public function edit(Pedido $pedido, Item_pedido $item)
+    public function edit($item)
     {
         $sabores = Sabor::all();
-
+                    
         if(Auth::check()){
-            if(Auth::user()->id == $pedido->user_id || (Auth::user()->perfil_id == 1)){
-                $itensPedido = DB::table('itens_pedido')
-                    ->join('sabores','itens_pedido.sabor_id','=','sabores.id')
-                    ->select(   'sabores.sabor as sabor', 'tamanho', 'quantidade', 'observacao')
-                    ->where('id', '=', $item->id);
-                return view('app.pedido', ['titulo' => 'Meus Pedidos', 'titulo_pagina' => 'Realizar pedido'] ,compact('pedido', 'sabores', 'itensPedido'));
+
+            $pedido_id = Item_pedido::where('id', '=', $item)->value('pedido_id');
+
+            $pedido_user = Pedido::where('id', '=', $pedido_id)->value('user_id');
+
+
+            if($pedido_id && (Auth::user()->id == $pedido_user || Auth::user()->perfil_id == 1)){
+                $item_pedido = DB::table('itens_pedido')
+                    ->select(   'sabor_id', 'id' ,'tamanho', 'quantidade', 'observacao')
+                    ->where('itens_pedido.id', '=', $item)
+                    ->first();
+                
+                return view('app.pedido', compact( 'sabores', 'item_pedido'))->with([
+                    'titulo' => 'Meus Pedidos',
+                    'titulo_pagina' => 'Realizar pedido'
+                ]);
             }
             else{
-                return redirect()->route('pedidos.index');
+                return redirect()->route('pedidos.index')->with('mensagem', 'Não é possível editar o pedido');
             }
         }
         else{
@@ -194,12 +205,15 @@ class PedidoController extends Controller
      * @param  \App\Pedido  $pedido
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Pedido $pedido)
+    public function update(Request $request, $item_id)
     {
+
+        $item = Item_pedido::find($item_id);
         
         $regras = [
-            'sabor' => 'required',
+            'sabor_id' => 'required',
             'tamanho' => 'required',
+            'quantidade' => 'required',
             'observacao' => 'nullable'
         ];
         
@@ -207,16 +221,19 @@ class PedidoController extends Controller
             'required' => 'O campo :attribute deve ser preenchido'
         ];
         
-        $request->validate($regras, $feedbacks);
-        
-        $dados = $request->all();
-        
-        $dados['status_pedido'] = 'Em preparo';
-
         try{
-            $pedido->update($dados);
+            $request->validate($regras, $feedbacks);
+            
+            $dados = $request->only([
+                'sabor_id', 'tamanho', 'quantidade', 'observacao'
+            ]);
+        
+            $item->update($dados);
+
             return redirect()->route('pedido.create')->with('mensagem', 'Pedido atualizado com sucesso!');
+
         } catch(\Exception $e){
+
             return redirect()->route('pedido.create')->with('error', 'Não foi possível atualizar o pedido: ' . $e->getMessage());
         }
     }

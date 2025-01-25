@@ -48,7 +48,21 @@ main{
     overflow-y: hidden; /* Esconde a barra de rolagem por padrão */
   }
   
-  .select-scroll:focus {
+.select-scroll:focus {
     max-height: 150px; /* Expande a altura quando clicado */
     overflow-y: auto;  /* Mostra a rolagem ao clicar */
-  }
+}
+
+section.col-4 form {
+    margin-top: auto; /* Joga o formulário para o final da section */
+}
+
+section {
+    max-height: 430px; /* Joga o formulário para o final da section */
+}
+
+ul.list-group {
+    flex-grow: 1;
+    overflow-y: auto; 
+    max-height: 250px; /* Define limite para rolagem */
+}

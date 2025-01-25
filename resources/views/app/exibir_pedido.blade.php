@@ -47,7 +47,7 @@
                                             <p class="card-text mx-3">{{ $pedido->observacao }}</p>
                                             <p class="card-text mx-3 mb-2">Status: <span class="text-success">{{ $pedido->status_pedido }}</span></p>
                                             <div class="d-flex justify-content-end">
-                                                <a href="{{ route('pedido.edit', $pedido->pedido_id, $pedido->id) }}" class="btn btn-sm btn-primary mx-1">Editar</a>
+                                                <a href="{{ route('pedido.edit', $pedido->id) }}" class="btn btn-sm btn-primary mx-1">Editar</a>
                                                 <form action="{{ route('pedido.destroy', $pedido->id) }}" method="post">
                                                     @csrf
                                                     @method('DELETE')
