@@ -58,6 +58,7 @@ O projeto "Pizzaria do Cuca" é um sistema de gerenciamento que permite gerencia
     extension=mbstring
     extension=mysqli
     extension=fileinfo
+    extension=gd2
     ```
 
 7. Execute as migrações para criar as tabelas:
