@@ -112,11 +112,12 @@ class PedidoController extends Controller
             'itens_pedido.*.sabor_id' => 'required',
             'itens_pedido.*.tamanho' => 'required',
             'itens_pedido.*.quantidade' => 'required',
-            'itens_pedido.*.observacao' => 'nullable'
+            'itens_pedido.*.observacao' => 'nullable|max:50'
         ];
         
         $feedbacks = [
-            'required' => 'O campo :attribute deve ser preenchido'
+            'required' => 'O campo :attribute deve ser preenchido',
+            'max' => 'O campo :attribute deve conter no máximo 50 caracteres'
         ];
         
         $request->validate($regras, $feedbacks);
@@ -141,17 +142,19 @@ class PedidoController extends Controller
             
             
             if ($request->has('gerar_pdf')) {
-                $dados = [
-                    'pedido' => $pedido,
-                    'itens_pedido' => $pedido->itens_pedido
-                ];
+
+                $sabores = [];
+                foreach($itensPedido as $item){
+                    $sabor = DB::table('sabores')->where('id', '=', $item['sabor_id'])->value('sabor');
+                    $sabores[$item['sabor_id']] = $sabor;
+                }
                 
                 $pdf = new Dompdf();
                 $options = new Options();
                 $options->set('defaultFont', 'DejaVu Sans');
                 $pdf->setOptions($options);
                 
-                $html = view('app.pdf.pedido', compact('pedido', 'itensPedido'))->render();
+                $html = view('app.pdf.pedido', compact('pedido', 'itensPedido', 'sabores'))->render();
                 $pdf->loadHtml($html);
                 $pdf->setPaper('A4', 'portrait');
                 $pdf->render();

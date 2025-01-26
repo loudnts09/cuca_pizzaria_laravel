@@ -56,6 +56,9 @@
               <div class="form-floating my-1">
                 <label for="ingredientes">Observações (50 caracteres)</label>
                 <textarea name="observacao" maxlength="50" class="form-control" id="ingredientes" placeholder="Ex.: borda de chocolate, manjericão..." style="height: 50px;">{{ isset($item_pedido) ? $item_pedido->observacao : "" }}</textarea>
+                @if ($errors->has('observacao'))
+                 <div class="text-danger">{{ $errors->first('observacao') }}</div>
+                @endif
               </div>
               @if(session('mensagem'))
               
@@ -92,7 +95,7 @@
             <div class="p-4 cor-de-fundo form-container text-white {{ session('mensagem') ? "com-mensagem" : "" }}">
               <h3 class="mt-2">Itens Adicionados:</h3>
               @if (!session("itens_pedido"))
-                <br><br><br><h3 class="text-center border border-white rounded">NAO HÁ PEDIDOS</h3>
+                <br><br><br><h3 class="text-center border border-white rounded">NAO HÁ ITENS</h3>
               @else
                 <ul class="list-group" style="max-height:400px; overflow-y: scroll;">
                   @foreach (session("itens_pedido") as $index => $item)

@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Relatório de Pedido</title>
+    <title>Relatório do Pedido</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -55,12 +55,18 @@
 <body>
     <div class="container">
         <div>
+            <?php
+                $caminho = public_path('imagens/fatia.png');
+                $tipo = pathinfo($caminho, PATHINFO_EXTENSION);
+                $dado = file_get_contents($caminho);
+                $base64 = 'data:image/' . $tipo . ';base64,' . base64_encode($dado);
+            ?>
             <div class="d-flex align-items-center">
-                <img src="{{ public_path('public/imagens/fatia.png') }}" id="logo" class="navbar-brand" alt="logo pizza" style="width:100px; height:auto;">
+                <img src="{{ $base64 }}" id="logo" class="navbar-brand" alt="logo pizza" style="width:100px; height:auto;">
             </div>
         </div>
         <div class="header">
-            Relatório de Pedido
+            Relatório do Pedido
         </div>
 
         <div class="info-section">
@@ -87,16 +93,18 @@
                     <th>Tamanho</th>
                     <th>Quantidade</th>
                     <th>Observação</th>
+                    <th>N° do Pedido</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($itensPedido as $index => $item)
                 <tr>
                     <td>{{ $index + 1 }}</td>
-                    <td>{{ $item['sabor_id']}}</td>
+                    <td>{{ $sabores[$item['sabor_id']]}}</td>
                     <td>{{ $item['tamanho'] }}</td>
                     <td>{{ $item['quantidade'] }}</td>
                     <td>{{ $item['observacao'] ?? 'Nenhuma' }}</td>
+                    <td>{{ $pedido->id}}</td>
                 </tr>
                 @endforeach
             </tbody>
