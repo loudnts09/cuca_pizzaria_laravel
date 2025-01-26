@@ -17,9 +17,9 @@
         <article class="container">
       @endif
       @if (!isset($item_pedido))
-        <section class="col-8 d-flex justify-content-center">
+        <section class="col-8 d-flex justify-content-center" style="max-height: 430px;">
       @else
-        <section class="d-flex justify-content-center">
+        <section class="d-flex justify-content-center" style="max-height: 430px;">
       @endif
           <div class="p-4 cor-de-fundo form-container text-white {{ session('mensagem') ? "com-mensagem" : "" }}">
             <h3 class="text-white">Faça seu Pedido</h3> 
@@ -88,7 +88,7 @@
           </div>
         </section>
         @if(!isset($item_pedido))
-          <section class="col-4 d-flex justify-content-center">
+          <section class="col-4 d-flex justify-content-center" style="max-height: 430px;">
             <div class="p-4 cor-de-fundo form-container text-white {{ session('mensagem') ? "com-mensagem" : "" }}">
               <h3 class="mt-2">Itens Adicionados:</h3>
               @if (!session("itens_pedido"))
@@ -116,18 +116,27 @@
                   @endforeach
                 </ul>
               @endif
-              <form action="{{ route('pedido.store' ) }}" method="post">
+              @if(session('caminho_pdf'))
+                <div class="mt-3" id="exportar">
+                    <a href="{{ asset('storage/' . session('caminho_pdf')) }}" class="btn btn-primary" download>
+                        Baixar PDF do Pedido
+                    </a>
+                </div>
+              @endif
+              <form action="{{ route('pedido.store' ) }}" style="margin-top: auto;" method="post">
                 @csrf
                 <input type="hidden" name="itens_pedido" value="{{ json_encode(session('itens_pedido')) }}">
                 <div>
                   <div class="mt-3">
-                    <button class="btn btn-success w-100 py-2" type="submit">{{ isset($pedido) ? 'Atualizar Pedido' : 'Enviar Pedido' }}</button>
-                  </div>
-                  <div class="form-check mt-3 ml-1">
-                    <input class="form-check-input" value="#" type="checkbox" id="exportar" style="transform: scale(1.5);">
-                    <label class="form-check-label" for="exportar">
-                      Exportar PDF
-                    </label>
+                    @if (!session('caminho_pdf'))
+                      <div class="form-check mt-3 ml-1">
+                        <input class="form-check-input" value="1" name="gerar_pdf" type="checkbox" id="exportar" style="transform: scale(1.5);">
+                        <label class="form-check-label" for="exportar">
+                          Exportar PDF
+                        </label>
+                      </div>
+                    @endif
+                    <button class="btn btn-success w-100 py-2 mt-2" type="submit">{{ isset($pedido) ? 'Atualizar Pedido' : 'Enviar Pedido' }}</button>
                   </div>
                 </div>
               </form>

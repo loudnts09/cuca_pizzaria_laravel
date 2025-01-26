@@ -32,6 +32,7 @@ Route::group(['middleware' => 'auth'], function(){
     Route::group(['prefix' => 'pedidos'], function(){
         Route::get('/novo', 'PedidoController@create')->name('pedido.create');
         Route::post('/novo','PedidoController@store')->name('pedido.store');
+        Route::get('/pdf', 'PedidoController@exportarDados')->name('pedido.pdf');
         Route::get('/meus', 'PedidoController@index')->name('pedidos.index');
         Route::delete('/meus/{pedido}','PedidoController@destroy')->name('pedido.destroy');
         Route::get('/meus/editar/{pedido}', 'PedidoController@edit')->name('pedido.edit');

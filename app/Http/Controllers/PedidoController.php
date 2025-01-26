@@ -6,9 +6,13 @@ use App\Item_pedido;
 use App\Pedido;
 use App\Sabor;
 use App\User;
+use Dompdf\Options;
+use Dompdf\Dompdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\View;
 
 class PedidoController extends Controller
 {
@@ -135,6 +139,31 @@ class PedidoController extends Controller
                 ]);
             }
             
+            
+            if ($request->has('gerar_pdf')) {
+                $dados = [
+                    'pedido' => $pedido,
+                    'itens_pedido' => $pedido->itens_pedido
+                ];
+                
+                $pdf = new Dompdf();
+                $options = new Options();
+                $options->set('defaultFont', 'DejaVu Sans');
+                $pdf->setOptions($options);
+                
+                $html = view('app.pdf.pedido', compact('pedido', 'itensPedido'))->render();
+                $pdf->loadHtml($html);
+                $pdf->setPaper('A4', 'portrait');
+                $pdf->render();
+                
+                $saida = $pdf->output();
+                $caminhoArquivo = 'public/pedidos/pedido_' . $pedido->id . '.pdf';
+                Storage::put($caminhoArquivo, $saida);
+                
+                // Salva o caminho do PDF na sessão para download posterior
+                session()->flash('caminho_pdf', 'pedidos/pedido_' . $pedido->id . '.pdf');
+            }
+
             DB::commit();
             
             //remove os itens da sessão após serem processados e salvos no bd
