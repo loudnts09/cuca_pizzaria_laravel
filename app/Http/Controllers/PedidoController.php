@@ -103,6 +103,14 @@ class PedidoController extends Controller
     {
         $itensPedido = json_decode($request->input('itens_pedido'), true);
 
+        $valorTamanhoItem = [
+            'pequena' => 0.5,
+            'media' => 1,
+            'grande' => 1.5,
+            'dfamilia'=> 2,
+        ];
+
+        $total = 0;
         
         if($itensPedido == null){
             return redirect()->back()->with('error', 'Não há pedidos para enviar');
@@ -125,12 +133,17 @@ class PedidoController extends Controller
         DB::beginTransaction();
         
         try{
+
             $pedido = Pedido::create([
                 'user_id' => auth()->id(),
                 'status_pedido' => 'em preparo'
             ]);
             
+            $sabores = [];
+            $saboresPreco = [];
+
             foreach($itensPedido as $item){
+
                 Item_pedido::create([
                     'pedido_id' => $pedido->id,
                     'sabor_id' => $item['sabor_id'],
@@ -138,23 +151,27 @@ class PedidoController extends Controller
                     'quantidade' => $item['quantidade'],
                     'observacao' => isset($item['observacao']) ? strtolower($item['observacao']) : null
                 ]);
+
+                $precoItem = (Sabor::where($item['sabor_id'], '=', 'id')->value('preco') * $valorTamanhoItem[$item['tamanho']]) * $item['quantidade'];
+
+                $sabores[$item['sabor_id']] = DB::table('sabores')->where('id', '=', $item['sabor_id'])->value('sabor');
+                $saboresPreco[$item['sabor_id']] = $precoItem;
+
+                $total += $precoItem;
             }
             
+            Pedido::create([
+                'valor' => $total
+            ])->where('id', '=', $itensPedido['pedido_id']);
             
             if ($request->has('gerar_pdf')) {
-
-                $sabores = [];
-                foreach($itensPedido as $item){
-                    $sabor = DB::table('sabores')->where('id', '=', $item['sabor_id'])->value('sabor');
-                    $sabores[$item['sabor_id']] = $sabor;
-                }
                 
                 $pdf = new Dompdf();
                 $options = new Options();
                 $options->set('defaultFont', 'DejaVu Sans');
                 $pdf->setOptions($options);
                 
-                $html = view('app.pdf.pedido', compact('pedido', 'itensPedido', 'sabores'))->render();
+                $html = view('app.pdf.pedido', compact('pedido', 'itensPedido', 'sabores', 'saboresPreco', 'precoItem','total'))->render();
                 $pdf->loadHtml($html);
                 $pdf->setPaper('A4', 'portrait');
                 $pdf->render();

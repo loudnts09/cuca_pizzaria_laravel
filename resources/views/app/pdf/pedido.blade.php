@@ -80,7 +80,7 @@
         </div>
 
         <div class="info-section">
-            <div class="info-title">Status do Pedido</div>
+            <div class="info-title">Status do Pedido N° {{$pedido->id}}</div>
             <div class="info-content">{{ $pedido->status_pedido }}</div>
         </div>
 

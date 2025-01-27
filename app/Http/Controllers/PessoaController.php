@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use Illuminate\Http\Request;
 use App\Models\Pessoa;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class PessoaController extends Controller
@@ -81,9 +82,11 @@ class PessoaController extends Controller
         $dados['password'] = bcrypt($request->input('password'));
         
         try {
-            User::create($dados);
-            return redirect()->route('cadastro.create', ['titulo' => 'Cadastro de Usuario'])->with('mensagem', 'Cadastro realizado com sucesso!');
+            $user = User::create($dados);
 
+            Auth::login($user);
+
+            return redirect()->route('home.index');
         } catch (\Exception $erro){
             return back()->withInput()->withErrors('Falha ao realizar cadastro: ' . $erro->getMessage());
         }
