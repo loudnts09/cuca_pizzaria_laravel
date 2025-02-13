@@ -8,12 +8,12 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^8.3.16",
+        "php": ">=7.2.5",
         "doctrine/dbal": "^3.9",
         "dompdf/dompdf": "^3.1",
         "fideloper/proxy": "^4.2",
         "guzzlehttp/guzzle": "^6.3",
-        "laravel/framework": "^7.28.4",
+        "laravel/framework": ">=7.28.4",
         "laravel/tinker": "^2.10.0",
         "php-webdriver/webdriver": "^1.15"
     },
